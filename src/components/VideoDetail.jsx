@@ -4,25 +4,29 @@ import { Paper, Typography } from '@material-ui/core';
 export default class VideoDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = { videoSrc: null };
+    this.baseUrl = 'https://www.youtube.com/embed/';
+    this.state = {
+      video: props.video,
+    };
   }
 
   UNSAFE_componentWillReceiveProps(props) {
-    const baseUrl = 'https://www.youtube.com/embed/';
-    this.setState({ videoSrc: baseUrl + props.video.id.videoId });
+    this.setState({
+      video: props.video,
+    });
   }
 
   render() {
-    if (!this.state.videoSrc) {
+    if (!this.state.video) {
       return <p>No Videos</p>;
     }
     return (
       <>
         <Paper elevation={6} style={{ height: '100%' }}>
           <iframe
-            src={this.state.videoSrc}
+            src={this.baseUrl + this.state.video.id.videoId}
             frameBorder="0"
-            title="Video Player"
+            title={this.state.video.snippet.title || 'Video Player'}
             width="100%"
             height="100%"
           ></iframe>
