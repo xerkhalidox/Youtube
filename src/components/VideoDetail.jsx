@@ -1,38 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Paper, Typography } from '@material-ui/core';
 
-export default class VideoDetail extends Component {
-  constructor(props) {
-    super(props);
-    this.baseUrl = 'https://www.youtube.com/embed/';
-    this.state = {
-      video: props.video,
-    };
+export default function VideoDetail({ video }) {
+  const baseUrl = 'https://www.youtube.com/embed/';
+  if (!video) {
+    return <p>Start Searching</p>;
   }
-
-  UNSAFE_componentWillReceiveProps(props) {
-    this.setState({
-      video: props.video,
-    });
-  }
-
-  render() {
-    if (!this.state.video) {
-      return <p>No Videos</p>;
-    }
-    return (
-      <>
-        <Paper elevation={6} style={{ height: '100%' }}>
-          <iframe
-            src={this.baseUrl + this.state.video.id.videoId}
-            frameBorder="0"
-            title={this.state.video.snippet.title || 'Video Player'}
-            width="100%"
-            height="100%"
-          ></iframe>
-        </Paper>
-        <Paper elevation={6} style={{ padding: '60px' }}></Paper>
-      </>
-    );
-  }
+  return (
+    <>
+      <Paper elevation={6} style={{ height: '100%' }}>
+        <iframe
+          src={baseUrl + video.id.videoId}
+          frameBorder="0"
+          title="Video Player"
+          width="100%"
+          height="100%"
+        ></iframe>
+      </Paper>
+      <Paper elevation={6} style={{ padding: '15px' }}>
+        <Typography variant="subtitle1">{video.snippet.title}</Typography>
+        <Typography variant="subtitle2">
+          {video.snippet.channelTitle}
+        </Typography>
+      </Paper>
+    </>
+  );
 }
